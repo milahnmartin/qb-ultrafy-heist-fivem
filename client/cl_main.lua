@@ -1,30 +1,31 @@
 heistInteractNpc = nil
 QBCore = exports['qb-core']:GetCoreObject()
--- AddEventHandler('onResourceStart', function(resourceName)
---   if (GetCurrentResourceName() ~= resourceName) then
---     return
---   end
---   Citizen.CreateThread(function()
---     RequestModel( -1613485779)
---     while not HasModelLoaded( -1613485779) do
---         Wait(0)
---     end
---     local heistInteractNpc = CreatePed(3,-1613485779, 589.19, -3282.03, 5.07, false, true)
---     PlaceObjectOnGroundProperly(heistInteractNpc)
---     FreezeEntityPosition(heistInteractNpc, true)
---     local player = GetPlayerPed(-1)
---     local pos = GetEntityCoords(heistInteractNpc, 0)
---     while true do
---     Wait(0)
---     local playerloc = GetEntityCoords(player, 0)
---     local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
---     if distance <= 2 then
---       checkKeyCard(player,heistInteractNpc)
---       Wait(10000)
---     end
---     end
---   end)
--- end)
+AddEventHandler('onResourceStart', function(resourceName)
+  if (GetCurrentResourceName() ~= resourceName) then
+    return
+  end
+  TriggerServerEvent("qb-heist:resetActiveRobberies")
+  -- Citizen.CreateThread(function()
+  --   RequestModel( -1613485779)
+  --   while not HasModelLoaded( -1613485779) do
+  --       Wait(0)
+  --   end
+  --   local heistInteractNpc = CreatePed(3,-1613485779, 589.19, -3282.03, 5.07, false, true)
+  --   PlaceObjectOnGroundProperly(heistInteractNpc)
+  --   FreezeEntityPosition(heistInteractNpc, true)
+  --   local player = GetPlayerPed(-1)
+  --   local pos = GetEntityCoords(heistInteractNpc, 0)
+  --   while true do
+  --   Wait(0)
+  --   local playerloc = GetEntityCoords(player, 0)
+  --   local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, playerloc['x'], playerloc['y'], playerloc['z'], true)
+  --   if distance <= 2 then
+  --     checkKeyCard(player,heistInteractNpc)
+  --     Wait(10000)
+  --   end
+  --   end
+  -- end)
+end)
 
 Citizen.CreateThread(function()
   Wait(5000)
@@ -93,21 +94,21 @@ function configureHeistResources(source)
     PlayerTable = PlayerData
   end)
   TriggerServerEvent("qb-heist:addPlayer",PlayerTable.citizenid)
-  -- RequestModel(0xEF813606)
-  -- while not HasModelLoaded(0xEF813606) do
-  --   Wait(0)
-  -- end
-  -- local heistBoat1 = CreateVehicle(0xEF813606,580.00, -3231.67, -0.32,0,true,false)
-  -- local heistBoat2 = CreateVehicle(0xEF813606,579.32, -3248.12, -0.66,0,true,false)
-  -- SetVehicleOnGroundProperly(heistBoat1)
-  -- SetVehicleOnGroundProperly(heistBoat2)
-  -- SetPedIntoVehicle(source, heistBoat1, -1)
-  -- TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(heistBoat1))
-  -- TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(heistBoat2))
-  -- SetVehicleEngineOn(heistBoat1, true, true)
-  -- SetVehicleEngineOn(heistBoat2, true, true)
-  -- TriggerEvent("qb-admin:client:maxmodVehicle")
-  -- TriggerServerEvent("qb-ultrafy-heist:heistCounter",{heistBoat1,heistBoat2})
+  RequestModel(0xEF813606)
+  while not HasModelLoaded(0xEF813606) do
+    Wait(0)
+  end
+  local heistBoat1 = CreateVehicle(0xEF813606,580.00, -3231.67, -0.32,0,true,false)
+  local heistBoat2 = CreateVehicle(0xEF813606,579.32, -3248.12, -0.66,0,true,false)
+  SetVehicleOnGroundProperly(heistBoat1)
+  SetVehicleOnGroundProperly(heistBoat2)
+  SetPedIntoVehicle(source, heistBoat1, -1)
+  TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(heistBoat1))
+  TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(heistBoat2))
+  SetVehicleEngineOn(heistBoat1, true, true)
+  SetVehicleEngineOn(heistBoat2, true, true)
+  TriggerEvent("qb-admin:client:maxmodVehicle")
+  TriggerServerEvent("qb-ultrafy-heist:heistCounter",{heistBoat1,heistBoat2})
 end
 
 
